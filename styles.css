@@ -202,17 +202,41 @@ summary {
 .document-output {
   min-height: 520px;
   margin-top: 8px;
-  padding: 28px;
+  padding: 22px 28px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: #ffffff;
-  white-space: pre-wrap;
   outline: none;
+  line-height: 1.22;
 }
 
 .document-output:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgba(36, 87, 166, 0.18);
+}
+
+.doc-line,
+.doc-blank-line {
+  margin: 0 0 4px;
+}
+
+.doc-blank-line {
+  min-height: 8px;
+}
+
+.doc-title {
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.filled-value {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.missing-value {
+  color: #777777;
 }
 
 code {
@@ -244,7 +268,7 @@ code {
 
 @media print {
   @page {
-    margin: 18mm;
+    margin: 8mm;
   }
 
   body {
@@ -273,5 +297,20 @@ code {
     border: 0;
     border-radius: 0;
     box-shadow: none;
+    font-size: 10.5pt;
+    line-height: 1.14;
+  }
+
+  .doc-line,
+  .doc-blank-line {
+    margin-bottom: 2px;
+  }
+
+  .doc-blank-line {
+    min-height: 5px;
+  }
+
+  .doc-title {
+    margin-bottom: 7px;
   }
 }

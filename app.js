@@ -145,10 +145,17 @@ function bindEvents() {
 
   elements.downloadDocxButton.addEventListener("click", async () => {
     const blob = await buildDocxBlob();
-    downloadBlob("contrato-gerado.docx", blob);
+    downloadBlob(`${buildGeneratedFilename()}.docx`, blob);
   });
 
-  elements.printButton.addEventListener("click", () => window.print());
+  elements.printButton.addEventListener("click", () => {
+    const originalTitle = document.title;
+    document.title = buildGeneratedFilename();
+    window.print();
+    setTimeout(() => {
+      document.title = originalTitle;
+    }, 500);
+  });
 }
 
 function renderTemplateOptions() {
@@ -200,7 +207,7 @@ function renderForm() {
 
 function syncFinalEditor({ force = false } = {}) {
   if (finalTextEdited && !force) return;
-  elements.finalEditor.textContent = buildContractText();
+  elements.finalEditor.innerHTML = buildContractHtml();
 }
 
 function buildContractText() {
@@ -208,6 +215,37 @@ function buildContractText() {
     const value = formData[field];
     return value && value.trim() ? value : `[${formatFieldLabel(field)}]`;
   });
+}
+
+function buildContractHtml() {
+  const lines = selectedTemplate.body.split(/\r?\n/);
+  const firstContentIndex = lines.findIndex((line) => line.trim());
+
+  return lines.map((line, index) => {
+    if (!line.trim()) return '<div class="doc-blank-line"><br></div>';
+
+    const className = index === firstContentIndex ? "doc-line doc-title" : "doc-line";
+    return `<div class="${className}">${templateLineToHtml(line)}</div>`;
+  }).join("");
+}
+
+function templateLineToHtml(line) {
+  let cursor = 0;
+  let html = "";
+  const matches = line.matchAll(/\{\{\s*([\w.-]+)\s*\}\}/g);
+
+  for (const match of matches) {
+    html += escapeHtml(line.slice(cursor, match.index));
+    const field = match[1];
+    const value = formData[field];
+    const text = value && value.trim() ? value : `[${formatFieldLabel(field)}]`;
+    const className = value && value.trim() ? "filled-value" : "missing-value";
+    html += `<span class="${className}" data-field="${escapeHtml(field)}">${escapeHtml(text)}</span>`;
+    cursor = match.index + match[0].length;
+  }
+
+  html += escapeHtml(line.slice(cursor));
+  return html;
 }
 
 function getEditorText() {
@@ -433,6 +471,10 @@ function downloadBlob(filename, blob) {
 async function buildDocxBlob() {
   const text = getEditorText() || buildContractText();
 
+  if (finalTextEdited) {
+    return createSimpleDocxFromEditor();
+  }
+
   if (selectedTemplate.format === "docx" && selectedTemplate.entries && !finalTextEdited) {
     let rawDocumentXmlHadMarkers = false;
     const replacedEntries = selectedTemplate.entries.map((entry) => {
@@ -454,8 +496,8 @@ async function buildDocxBlob() {
   }
 
   if (!finalTextEdited) {
-    return createSimpleDocxFromTemplate(selectedTemplate.body);
-  }
+  return createSimpleDocxFromTemplate(selectedTemplate.body);
+}
 
   return createSimpleDocx(text);
 }
@@ -485,6 +527,11 @@ function styleFirstParagraphXml(xml) {
 
 function createSimpleDocxFromTemplate(templateBody) {
   const documentXml = buildDocumentXmlFromTemplate(templateBody);
+  return createDocxFromDocumentXml(documentXml);
+}
+
+function createSimpleDocxFromEditor() {
+  const documentXml = buildDocumentXmlFromEditor();
   return createDocxFromDocumentXml(documentXml);
 }
 
@@ -533,7 +580,23 @@ function buildDocumentXml(text) {
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
   <w:body>
     ${paragraphs}
-    <w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440"/></w:sectPr>
+    <w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="720" w:right="720" w:bottom="720" w:left="720"/></w:sectPr>
+  </w:body>
+</w:document>`;
+}
+
+function buildDocumentXmlFromEditor() {
+  const blocks = [...elements.finalEditor.childNodes]
+    .map((node) => editorNodeToRuns(node))
+    .filter((runs) => runs.length);
+  const firstContentIndex = blocks.findIndex((runs) => runs.some((run) => run.text.trim()));
+  const paragraphs = blocks.map((runs, index) => buildParagraphXml(runs, index === firstContentIndex)).join("");
+
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    ${paragraphs}
+    <w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="720" w:right="720" w:bottom="720" w:left="720"/></w:sectPr>
   </w:body>
 </w:document>`;
 }
@@ -549,7 +612,7 @@ function buildDocumentXmlFromTemplate(templateBody) {
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
   <w:body>
     ${paragraphs}
-    <w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440"/></w:sectPr>
+    <w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="720" w:right="720" w:bottom="720" w:left="720"/></w:sectPr>
   </w:body>
 </w:document>`;
 }
@@ -584,8 +647,8 @@ function buildParagraphXml(runs, isTitle = false) {
   if (!runs.some((run) => run.text.trim())) return "<w:p/>";
 
   const paragraphProperties = isTitle
-    ? '<w:pPr><w:jc w:val="center"/><w:spacing w:after="240"/></w:pPr>'
-    : "";
+    ? '<w:pPr><w:jc w:val="center"/><w:spacing w:after="80" w:before="0" w:line="240" w:lineRule="auto"/></w:pPr>'
+    : '<w:pPr><w:spacing w:after="40" w:before="0" w:line="220" w:lineRule="auto"/></w:pPr>';
 
   const runXml = runs.map((run) => {
     const properties = [
@@ -597,6 +660,98 @@ function buildParagraphXml(runs, isTitle = false) {
   }).join("");
 
   return `<w:p>${paragraphProperties}${runXml}</w:p>`;
+}
+
+function editorNodeToRuns(node) {
+  if (node.nodeType === Node.TEXT_NODE) {
+    return [{ text: node.textContent || "", underline: false }];
+  }
+
+  if (node.nodeType !== Node.ELEMENT_NODE) return [];
+
+  const element = node;
+  if (element.matches("br")) return [{ text: "", underline: false }];
+
+  const runs = [];
+  element.childNodes.forEach((child) => collectRuns(child, runs, element.classList.contains("filled-value")));
+  return runs.length ? runs : [{ text: element.innerText || "", underline: element.classList.contains("filled-value") }];
+}
+
+function collectRuns(node, runs, inheritedUnderline = false) {
+  if (node.nodeType === Node.TEXT_NODE) {
+    runs.push({ text: node.textContent || "", underline: inheritedUnderline });
+    return;
+  }
+
+  if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+  const element = node;
+  const underline = inheritedUnderline || element.classList.contains("filled-value") || getComputedStyle(element).textDecorationLine.includes("underline");
+  element.childNodes.forEach((child) => collectRuns(child, runs, underline));
+}
+
+function buildGeneratedFilename() {
+  const type = getDocumentTypeSlug();
+  const cpf = sanitizeFilenamePart(formData["locatario.cpf"] || formData["locatario.cpf_cnpj"] || "SemCPF");
+  const startDate = normalizeDateForFilename(
+    formData["contrato.data_inicio_extenso"] ||
+    formData["contrato.nova_data_inicio_extenso"] ||
+    formData["contrato.data_original_extenso"] ||
+    formData["contrato.data_assinatura_extenso"] ||
+    "SemData"
+  );
+
+  return `${type}_${cpf}_${startDate}`;
+}
+
+function getDocumentTypeSlug() {
+  if (selectedTemplate.id.includes("mudanca-locador") || selectedTemplate.name.toLowerCase().includes("locador")) {
+    return "AditivoLocador";
+  }
+
+  if (selectedTemplate.id.includes("aditivo") || selectedTemplate.name.toLowerCase().includes("aditivo")) {
+    return "AditivoAluguel";
+  }
+
+  return "ContratoAluguel";
+}
+
+function sanitizeFilenamePart(value) {
+  const text = String(value || "").trim();
+  const digits = text.replace(/\D/g, "");
+  if (digits.length >= 5) return digits;
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]+/g, "").slice(0, 40) || "SemInfo";
+}
+
+function normalizeDateForFilename(value) {
+  const text = String(value || "").trim().toLowerCase();
+  const numeric = text.match(/(\d{1,2})\D+(\d{1,2})\D+(\d{2,4})/);
+  if (numeric) return formatDateParts(numeric[1], numeric[2], numeric[3]);
+
+  const months = {
+    janeiro: "01",
+    fevereiro: "02",
+    marco: "03",
+    março: "03",
+    abril: "04",
+    maio: "05",
+    junho: "06",
+    julho: "07",
+    agosto: "08",
+    setembro: "09",
+    outubro: "10",
+    novembro: "11",
+    dezembro: "12",
+  };
+  const written = text.match(/(\d{1,2})\s+de\s+([a-zç]+)\s+de\s+(\d{2,4})/);
+  if (written && months[written[2]]) return formatDateParts(written[1], months[written[2]], written[3]);
+
+  return sanitizeFilenamePart(value || "SemData");
+}
+
+function formatDateParts(day, month, year) {
+  const yyyy = String(year).length === 2 ? `20${year}` : String(year);
+  return `${yyyy.padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
 function documentXmlToText(xml) {
@@ -761,4 +916,13 @@ function escapeXml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&apos;");
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }

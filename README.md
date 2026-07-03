@@ -37,6 +37,16 @@ O botão `Limpar formulário` apaga o rascunho atual, mas mantém as sugestões 
 
 No arquivo `.docx`, a primeira linha do contrato é gerada como título centralizado e em negrito. Os valores vindos dos campos preenchidos são sublinhados.
 
+O nome sugerido para o arquivo gerado segue o padrão:
+
+```txt
+<tipo de documento>_<CPF do locatário>_<data de início>
+```
+
+Exemplos de tipo: `ContratoAluguel`, `AditivoAluguel` e `AditivoLocador`.
+
+Ao salvar PDF, se o navegador mostrar cabeçalho ou rodapé automático, desative a opção `Cabeçalhos e rodapés` na janela de impressão. O sistema já imprime somente a área do documento.
+
 Quando o contrato é editado manualmente na área final, essas mudanças valem apenas para o arquivo gerado. O template original não é modificado.
 
 ## Tamanho da fonte
