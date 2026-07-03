@@ -24,10 +24,18 @@ O app salva temporariamente, apenas neste navegador:
 
 O botão `Limpar formulário` apaga o rascunho atual, mas mantém as sugestões recentes para facilitar novos contratos.
 
+## Templates incluídos
+
+- Contrato de locação de imóvel.
+- Aditivo - mudança de locador.
+- Aditivo - renovação de locação.
+
 ## Saída
 
 - `Salvar .docx` gera um arquivo Word.
 - `Salvar .pdf` abre a impressão do navegador mostrando somente a área do contrato.
+
+No arquivo `.docx`, a primeira linha do contrato é gerada como título centralizado e em negrito. Os valores vindos dos campos preenchidos são sublinhados.
 
 Quando o contrato é editado manualmente na área final, essas mudanças valem apenas para o arquivo gerado. O template original não é modificado.
 

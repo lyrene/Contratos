@@ -1,0 +1,42 @@
+TERMO ADITIVO DE RENOVAÇÃO AO CONTRATO DE LOCAÇÃO
+
+Pelo presente instrumento particular, as partes:
+
+LOCADOR: {{locador.nome}}, inscrito no CNPJ nº {{locador.cnpj}}, neste ato representada por {{locador.representante_nome}}, CPF nº {{locador.representante_cpf}}, já qualificado no contrato original;
+
+LOCATÁRIO: {{locatario.nome}}, inscrito no CPF sob nº {{locatario.cpf}}, já qualificado no contrato original;
+
+FIADOR: {{fiador.nome}}, inscrito no CPF sob nº {{fiador.cpf}}, já qualificado, se houver,
+
+Têm entre si justo e acordado o presente Termo Aditivo de Renovação ao Contrato de Locação, referente ao contrato firmado na data {{contrato.data_original_extenso}}, mediante as cláusulas seguintes:
+
+CLÁUSULA 1ª – DA RENOVAÇÃO DO PRAZO
+
+1.1. As partes ajustam a renovação do contrato de locação por novo prazo determinado de {{contrato.novo_prazo_meses}} (qt. meses por extenso {{contrato.novo_prazo_extenso}}) meses, com início em {{contrato.nova_data_inicio_extenso}} e término em {{contrato.nova_data_fim_extenso}}.
+
+CLÁUSULA 2ª – DO VALOR DO ALUGUEL
+
+2.1. Em razão da renovação ora pactuada, o valor do aluguel passa a ser de R$ {{contrato.valor_aluguel}} (por extenso {{contrato.valor_aluguel_extenso}}), com vencimento no dia {{contrato.dia_vencimento}} de cada mês.
+
+2.2. Permanecem aplicáveis os critérios de reajuste previstos no contrato original.
+
+CLÁUSULA 3ª – DA RATIFICAÇÃO
+
+3.1. Permanecem inalteradas e em pleno vigor todas as demais cláusulas e condições do contrato original, que não conflitarem com o presente aditivo.
+
+CLÁUSULA 4ª – DA VIGÊNCIA
+
+4.1. O presente termo aditivo passa a produzir efeitos a partir da data de assinatura.
+
+E, por estarem justas e acordadas, firmam o presente instrumento em 2 vias de igual teor e forma.
+
+{{contrato.local_assinatura}} ({{contrato.uf_assinatura}}), {{contrato.data_assinatura_extenso}}.
+
+_________________________________________
+LOCADOR
+
+_________________________________________
+LOCATÁRIO
+
+_________________________________________
+FIADOR

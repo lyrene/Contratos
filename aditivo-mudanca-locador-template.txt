@@ -1,0 +1,45 @@
+TERMO ADITIVO AO CONTRATO DE LOCAÇÃO - SUBSTITUIÇÃO DO LOCADOR
+
+Pelo presente instrumento particular, as partes abaixo identificadas:
+
+LOCADOR ORIGINAL: {{locador_original.nome}}, inscrito no CPF sob nº {{locador_original.cpf}}.
+
+NOVO LOCADOR: {{novo_locador.nome}}, inscrito no CNPJ nº {{novo_locador.cnpj}}, endereço {{novo_locador.endereco}}, neste ato representada por {{novo_locador.representante_nome}}, CPF nº {{novo_locador.representante_cpf}}.
+
+LOCATÁRIO: {{locatario.nome}}, inscrito no CPF/CNPJ sob nº {{locatario.cpf_cnpj}}.
+
+FIADOR: {{fiador.nome}}, inscrito no CPF sob nº {{fiador.cpf}}.
+
+Têm entre si justo e acordado o presente Termo Aditivo ao Contrato de Locação, referente ao contrato de locação firmado na data {{contrato.data_original_extenso}}, mediante as seguintes cláusulas:
+
+CLÁUSULA 1ª – DA SUBSTITUIÇÃO DO LOCADOR
+
+1.1. As partes ajustam, de comum acordo, a substituição do LOCADOR no contrato, deixando o LOCADOR ORIGINAL de figurar no contrato, passando a figurar como LOCADOR a pessoa jurídica qualificada no preâmbulo deste aditivo, chamada NOVO LOCADOR, a qual assume, a partir desta data, todos os direitos e obrigações decorrentes do contrato de locação.
+
+CLÁUSULA 2ª – DA ANUÊNCIA DAS PARTES
+
+2.1. O LOCATÁRIO e o FIADOR, se houver, declara ciência e concordância com a substituição ora realizada, permanecendo válidas e exigíveis todas as demais obrigações assumidas no contrato original.
+
+CLÁUSULA 3ª – DA RATIFICAÇÃO
+
+3.1. Permanecem inalteradas e em pleno vigor todas as demais cláusulas e condições do contrato de locação original.
+
+CLÁUSULA 4ª – DA VIGÊNCIA
+
+4.1. O presente termo aditivo passa a produzir efeitos a partir da data de sua assinatura.
+
+E, por estarem justas e acordadas, firmam o presente instrumento em 2 vias de igual teor e forma.
+
+{{contrato.local_assinatura}} ({{contrato.uf_assinatura}}), {{contrato.data_assinatura_extenso}}.
+
+_________________________________________
+LOCADOR ORIGINAL
+
+_________________________________________
+NOVO LOCADOR
+
+_________________________________________
+LOCATÁRIO
+
+_________________________________________
+FIADOR

@@ -45,6 +45,18 @@ const bundledTemplateFiles = [
     format: "text",
     url: "./contrato-locacao-imovel-template.txt",
   },
+  {
+    id: "aditivo-mudanca-locador-v1",
+    name: "Aditivo - mudança de locador",
+    format: "text",
+    url: "./aditivo-mudanca-locador-template.txt",
+  },
+  {
+    id: "aditivo-renovacao-locacao-v1",
+    name: "Aditivo - renovação de locação",
+    format: "text",
+    url: "./aditivo-renovacao-locacao-template.txt",
+  },
 ];
 
 let templates = loadTemplates();
@@ -219,6 +231,8 @@ function groupFields(fields) {
 function formatGroupLabel(group) {
   const labels = {
     locador: "Dados do locador",
+    locador_original: "Dados do locador original",
+    novo_locador: "Dados do novo locador",
     locatario: "Dados do locatário",
     fiador: "Dados do fiador",
     imovel: "Dados do imóvel",
@@ -250,12 +264,21 @@ function exampleForField(field) {
     "locador.telefone": "Ex.: (84) 99999-0000",
     "locador.representante_nome": "Ex.: Maria Silva",
     "locador.representante_cpf": "Ex.: 123.456.789-00",
+    "locador_original.nome": "Ex.: José Almeida",
+    "locador_original.cpf": "Ex.: 123.456.789-00",
+    "novo_locador.nome": "Ex.: Imobiliária Silva Ltda.",
+    "novo_locador.cnpj": "Ex.: 12.345.678/0001-90",
+    "novo_locador.endereco": "Ex.: Rua das Flores, 123, Centro",
+    "novo_locador.representante_nome": "Ex.: Maria Silva",
+    "novo_locador.representante_cpf": "Ex.: 123.456.789-00",
     "locatario.nome": "Ex.: João Souza",
     "locatario.profissao": "Ex.: professor",
+    "locatario.cpf": "Ex.: 987.654.321-00",
     "locatario.cpf_cnpj": "Ex.: 987.654.321-00",
     "locatario.endereco": "Ex.: Av. Brasil, 100, Mossoró/RN",
     "fiador.nome": "Ex.: Ana Oliveira",
     "fiador.profissao": "Ex.: comerciante",
+    "fiador.cpf": "Ex.: 111.222.333-44",
     "fiador.cpf_cnpj": "Ex.: 111.222.333-44",
     "fiador.endereco": "Ex.: Rua Principal, 45, Mossoró/RN",
     "imovel.endereco": "Ex.: Rua Projetada, 50, Mossoró/RN",
@@ -265,9 +288,16 @@ function exampleForField(field) {
     "contrato.valor_aluguel_extenso": "Ex.: mil e quinhentos reais",
     "contrato.dia_vencimento": "Ex.: 10",
     "contrato.prazo_meses": "Ex.: 12",
+    "contrato.novo_prazo_meses": "Ex.: 12",
+    "contrato.novo_prazo_extenso": "Ex.: doze",
     "contrato.data_inicio_extenso": "Ex.: 01 de agosto de 2026",
     "contrato.data_fim_extenso": "Ex.: 31 de julho de 2027",
+    "contrato.nova_data_inicio_extenso": "Ex.: 01 de agosto de 2026",
+    "contrato.nova_data_fim_extenso": "Ex.: 31 de julho de 2027",
+    "contrato.data_original_extenso": "Ex.: 01 de agosto de 2025",
     "contrato.garantia": "Ex.: fiança",
+    "contrato.local_assinatura": "Ex.: Mossoró",
+    "contrato.uf_assinatura": "Ex.: RN",
     "contrato.data_assinatura_extenso": "Ex.: 03 de julho de 2026",
     "contrato.observacao_especifica": "Ex.: Permitido um animal de pequeno porte",
   };
@@ -409,7 +439,7 @@ async function buildDocxBlob() {
       if (entry.name !== "word/document.xml") return entry;
       const xml = decodeText(entry.data);
       rawDocumentXmlHadMarkers = xml.includes("{{");
-      const replacedXml = replaceTemplateFields(xml);
+      const replacedXml = styleFirstParagraphXml(replaceTemplateFieldsInDocxXml(xml));
       return { ...entry, data: encodeText(replacedXml) };
     });
     const documentEntry = replacedEntries.find((entry) => entry.name === "word/document.xml");
@@ -423,15 +453,47 @@ async function buildDocxBlob() {
     return createSimpleDocx(text);
   }
 
+  if (!finalTextEdited) {
+    return createSimpleDocxFromTemplate(selectedTemplate.body);
+  }
+
   return createSimpleDocx(text);
 }
 
-function replaceTemplateFields(text) {
-  return text.replace(/\{\{\s*([\w.-]+)\s*\}\}/g, (_, field) => escapeXml(formData[field] || ""));
+function replaceTemplateFieldsInDocxXml(text) {
+  return text.replace(/\{\{\s*([\w.-]+)\s*\}\}/g, (_, field) => {
+    const value = formData[field] || "";
+    if (!value.trim()) return "";
+    return `</w:t></w:r><w:r><w:rPr><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">${escapeXml(value)}</w:t></w:r><w:r><w:t xml:space="preserve">`;
+  });
+}
+
+function styleFirstParagraphXml(xml) {
+  const firstParagraph = xml.match(/<w:p\b[\s\S]*?<\/w:p>/);
+  if (!firstParagraph) return xml;
+
+  let styledParagraph = firstParagraph[0];
+  if (styledParagraph.includes("<w:pPr>")) {
+    styledParagraph = styledParagraph.replace("<w:pPr>", '<w:pPr><w:jc w:val="center"/>');
+  } else {
+    styledParagraph = styledParagraph.replace(/<w:p\b([^>]*)>/, '<w:p$1><w:pPr><w:jc w:val="center"/></w:pPr>');
+  }
+
+  styledParagraph = styledParagraph.replace(/<w:r>/g, "<w:r><w:rPr><w:b/><w:bCs/></w:rPr>");
+  return xml.replace(firstParagraph[0], styledParagraph);
+}
+
+function createSimpleDocxFromTemplate(templateBody) {
+  const documentXml = buildDocumentXmlFromTemplate(templateBody);
+  return createDocxFromDocumentXml(documentXml);
 }
 
 function createSimpleDocx(text) {
   const documentXml = buildDocumentXml(text);
+  return createDocxFromDocumentXml(documentXml);
+}
+
+function createDocxFromDocumentXml(documentXml) {
   const entries = [
     {
       name: "[Content_Types].xml",
@@ -461,9 +523,26 @@ function createSimpleDocx(text) {
 }
 
 function buildDocumentXml(text) {
-  const paragraphs = text.split(/\r?\n/).map((line) => {
-    if (!line.trim()) return "<w:p/>";
-    return `<w:p><w:r><w:t xml:space="preserve">${escapeXml(line)}</w:t></w:r></w:p>`;
+  const lines = text.split(/\r?\n/);
+  const firstContentIndex = lines.findIndex((line) => line.trim());
+  const paragraphs = lines.map((line, index) => buildParagraphXml([
+    { text: line, underline: false },
+  ], index === firstContentIndex)).join("");
+
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>
+    ${paragraphs}
+    <w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440"/></w:sectPr>
+  </w:body>
+</w:document>`;
+}
+
+function buildDocumentXmlFromTemplate(templateBody) {
+  const lines = templateBody.split(/\r?\n/);
+  const firstContentIndex = lines.findIndex((line) => line.trim());
+  const paragraphs = lines.map((line, index) => {
+    return buildParagraphXml(templateLineToRuns(line), index === firstContentIndex);
   }).join("");
 
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -473,6 +552,51 @@ function buildDocumentXml(text) {
     <w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440"/></w:sectPr>
   </w:body>
 </w:document>`;
+}
+
+function templateLineToRuns(line) {
+  const runs = [];
+  let cursor = 0;
+  const matches = line.matchAll(/\{\{\s*([\w.-]+)\s*\}\}/g);
+
+  for (const match of matches) {
+    if (match.index > cursor) {
+      runs.push({ text: line.slice(cursor, match.index), underline: false });
+    }
+
+    const field = match[1];
+    const value = formData[field];
+    runs.push({
+      text: value && value.trim() ? value : `[${formatFieldLabel(field)}]`,
+      underline: Boolean(value && value.trim()),
+    });
+    cursor = match.index + match[0].length;
+  }
+
+  if (cursor < line.length) {
+    runs.push({ text: line.slice(cursor), underline: false });
+  }
+
+  return runs.length ? runs : [{ text: "", underline: false }];
+}
+
+function buildParagraphXml(runs, isTitle = false) {
+  if (!runs.some((run) => run.text.trim())) return "<w:p/>";
+
+  const paragraphProperties = isTitle
+    ? '<w:pPr><w:jc w:val="center"/><w:spacing w:after="240"/></w:pPr>'
+    : "";
+
+  const runXml = runs.map((run) => {
+    const properties = [
+      isTitle ? "<w:b/><w:bCs/>" : "",
+      run.underline ? '<w:u w:val="single"/>' : "",
+    ].join("");
+    const runProperties = properties ? `<w:rPr>${properties}</w:rPr>` : "";
+    return `<w:r>${runProperties}<w:t xml:space="preserve">${escapeXml(run.text)}</w:t></w:r>`;
+  }).join("");
+
+  return `<w:p>${paragraphProperties}${runXml}</w:p>`;
 }
 
 function documentXmlToText(xml) {
