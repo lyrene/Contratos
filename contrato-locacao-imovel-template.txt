@@ -1,0 +1,132 @@
+CONTRATO DE LOCAÇÃO DE IMÓVEL
+
+Pelo presente instrumento de contrato de locação, de um lado:
+
+LOCADOR: {{locador.nome}}, inscrito no CNPJ nº {{locador.cnpj}}, endereço {{locador.endereco}}, neste ato representada por {{locador.representante_nome}}, CPF nº {{locador.representante_cpf}}.
+
+E, de outro lado:
+
+LOCATÁRIO: Nome: {{locatario.nome}}, atuando na profissão {{locatario.profissao}}, inscrito no CPF/CNPJ nº {{locatario.cpf_cnpj}}. Residente e domiciliado em {{locatario.endereco}}.
+
+Afiançado por:
+
+FIADOR: Nome: {{fiador.nome}}, atuando na profissão {{fiador.profissao}}, inscrito no CPF/CNPJ nº {{fiador.cpf_cnpj}}. Residente e domiciliado em {{fiador.endereco}}.
+
+As partes ajustam a presente locação, regida pela Lei nº 8.245/1991 e demais normas aplicáveis.
+
+CLÁUSULA 1ª – DO OBJETO
+
+1.1. O LOCADOR dá em locação ao LOCATÁRIO o imóvel de sua propriedade, situado à {{imovel.endereco}}, identificado como {{imovel.identificacao}}, incluindo, quando existente, edificações, instalações, benfeitorias e áreas comuns vinculadas ao imóvel.
+
+1.2. O imóvel é entregue no estado em que se encontra, conforme laudo de vistoria inicial, aceito pelas partes.
+
+CLÁUSULA 2ª – DA DESTINAÇÃO DE USO E DAS NORMAS DE BOA CONVIVÊNCIA
+
+2.1. O imóvel destina-se exclusivamente ao uso {{imovel.destinacao_uso}}, sendo vedada qualquer alteração de finalidade sem autorização expressa do LOCADOR.
+
+2.2. No caso de uso comercial, o LOCATÁRIO obriga-se a cumprir todas as normas legais, profissionais, urbanísticas, sanitárias e administrativas aplicáveis à atividade exercida.
+
+2.3. No caso de uso residencial, o imóvel não poderá ser utilizado para fins comerciais, industriais ou profissionais.
+
+2.4. O LOCATÁRIO, seus prepostos, funcionários, clientes e visitantes obrigam-se a cumprir integralmente as normas de boa convivência estabelecidas pelo LOCADOR e condomínio do empreendimento.
+
+CLÁUSULA 3ª – DO PRAZO
+
+3.1. O prazo de locação é de {{contrato.prazo_meses}} meses, a iniciar em {{contrato.data_inicio_extenso}} e a terminar em {{contrato.data_fim_extenso}}.
+
+3.2. O LOCATÁRIO obriga-se a manifestar-se formalmente, por escrito, com antecedência mínima de 30 (trinta) dias da data de término do prazo contratual, informando ao LOCADOR sua intenção de desocupar o imóvel ou de permanecer no mesmo. A ausência de manifestação no prazo estipulado será interpretada como desinteresse na renovação, devendo o imóvel ser restituído livre e desocupado ao final do contrato.
+
+3.3. Caso haja interesse na continuidade da locação, as partes deverão formalizar novo contrato ou aditivo, mediante acordo expresso sobre valor e prazo.
+
+3.4. A permanência do LOCATÁRIO no imóvel após o término do prazo contratual, sem formalização de novo contrato, implicará no pagamento de aluguel reajustado, acrescido de multa e demais encargos previstos neste contrato, até a efetiva desocupação do imóvel, sem prejuízo das medidas legais cabíveis.
+
+CLÁUSULA 4ª – DO VALOR DO ALUGUEL, DA DATA DE PAGAMENTO E DO REAJUSTE
+
+4.1. O valor do aluguel mensal é de R$ {{contrato.valor_aluguel}} (por extenso {{contrato.valor_aluguel_extenso}}), que o LOCATÁRIO compromete-se a pagar pontualmente até o dia {{contrato.dia_vencimento}} de cada mês, direto ao LOCADOR ou a quem o LOCADOR indicar. O pagamento de cada parcela corresponde ao período de 30 (trinta) dias subsequentes de utilização do imóvel.
+
+4.2. O valor do aluguel será reajustado anualmente com base no IGP-M (Índice Geral de Preços – Mercado), ou, na sua ausência, por índice oficial equivalente que venha a substituí-lo. Alternativamente, poderá ser adotado outro índice proposto pelo LOCATÁRIO, desde que expressamente aceito pelo LOCADOR.
+
+CLÁUSULA 5ª – DOS ENCARGOS E SERVIÇOS
+
+5.1. O LOCATÁRIO obriga-se a ligar e desligar, em seu nome, todos os serviços públicos e privados relacionados ao imóvel, a saber: Energia elétrica (COSERN), telefone, água (CAERN) e internet. Isentando o LOCADOR de qualquer responsabilidade sobre eles.
+
+5.2. São de responsabilidade do LOCADOR as despesas estruturais e extraordinárias, quando existentes.
+
+CLÁUSULA 6ª – DA GARANTIA LOCATÍCIA
+
+6.1. A locação é garantida por {{contrato.garantia}}.
+
+6.2. Quando a garantia for fiança, o FIADOR: responde solidariamente pelas obrigações; renuncia ao benefício de ordem; e permanece responsável mesmo em caso de prorrogação do contrato.
+
+6.3. Quando a garantia for antecipação de mensalidades, o LOCATÁRIO obriga-se a realizar o pagamento antecipado de 3 meses de aluguel. Sendo este valor restituído ao final do prazo de locação.
+
+CLÁUSULA 7ª – DAS BENFEITORIAS E ALTERAÇÕES
+
+7.1. Qualquer obra ou adaptação dependerá de autorização prévia e escrita do LOCADOR.
+
+7.2. As benfeitorias, ainda que autorizadas, não serão indenizadas, salvo pacto expresso em contrário.
+
+7.3. É vedada qualquer alteração externa, inclusive instalação de letreiros, placas, toldos ou elementos visuais, sem autorização expressa do LOCADOR.
+
+CLÁUSULA 8ª – DA CONSERVAÇÃO E VISTORIA
+
+8.1. O LOCATÁRIO obriga-se a conservar o imóvel em perfeito estado de higiene, limpeza, conservação e funcionamento.
+
+8.2. O LOCADOR poderá vistoriar o imóvel a qualquer tempo, mediante aviso prévio de pelo menos 24 horas, para verificar o cumprimento das obrigações contratuais.
+
+8.3. O LOCATÁRIO autoriza o LOCADOR ou seu representante a realizar vistoria final e assinar termo de entrega do imóvel, caso se ausente ou se recuse injustificadamente.
+
+CLÁUSULA 9ª – DA SUBLOCAÇÃO E CESSÃO
+
+9.1. É proibida a sublocação ou cessão do imóvel sem autorização expressa do LOCADOR.
+
+CLÁUSULA 10ª – DO ABANDONO DO IMÓVEL
+
+10.1. Caracterizado o abandono, o LOCADOR poderá imitir-se imediatamente na posse do imóvel, independentemente de ordem judicial, para preservação do bem, sem prejuízo das penalidades cabíveis.
+
+CLÁUSULA 11ª – DO DIREITO DE PREFERÊNCIA
+
+11.1. Em caso de venda do imóvel, o LOCATÁRIO terá direito de preferência para aquisição, em igualdade de condições com terceiros, desde que manifestado no prazo legal de 30 dias.
+
+11.2. A alienação do imóvel não extingue a locação durante o prazo contratual.
+
+CLÁUSULA 12ª – DA DESAPROPRIAÇÃO
+
+12.1. Em caso de desapropriação total ou parcial do imóvel, o contrato será automaticamente rescindido, não cabendo ao LOCADOR qualquer indenização ao LOCATÁRIO, que deverá buscá-la diretamente junto ao Poder Público, se cabível.
+
+CLÁUSULA 13ª – DA MORA E PENALIDADES
+
+13.1. O atraso no pagamento de quaisquer valores implicará em multa, juros de mora de 10% ao mês e correção monetária.
+
+13.2. O LOCADOR poderá considerar rescindido (por iniciativa do LOCATÁRIO) o presente contrato, independentemente de notificação judicial ou extrajudicial, caso o LOCATÁRIO descumpra as obrigações previstas na Cláusula 4ª deste instrumento.
+
+CLÁUSULA 14ª – DA RESCISÃO
+
+14.1. A rescisão antecipada por iniciativa do LOCATÁRIO obriga-o a pagar multa compensatória equivalente a 80% (oitenta por cento) da soma dos aluguéis correspondentes ao período restante até o término do prazo contratual.
+
+CLÁUSULA 15ª – DA DESOCUPAÇÃO
+
+15.1. O imóvel deverá ser devolvido livre, desocupado e em condições equivalentes às da vistoria inicial, ressalvado o desgaste natural.
+
+15.2. No caso de descumprimento, o LOCATÁRIO obriga-se a pagar ao LOCADOR as quantias gastas em efetuar os serviços e aquisições necessárias, mediante apresentação dos comprovantes.
+
+15.3. Se porventura o imóvel e suas instalações não forem restituídos nas condições aqui estabelecidas, e adimplidos os encargos de responsabilidade do LOCATÁRIO, o aluguel será devido até serem cumpridas todas as exigências contratuais e legais.
+
+15.4. O LOCATÁRIO obriga-se a realizar a entrada e retirada de móveis e demais pertences do imóvel, tanto na ocupação quanto na desocupação, exclusivamente em horário comercial, previamente agendado e autorizado pelo LOCADOR.
+
+CLÁUSULA 16ª – DO FORO
+
+16.1. Fica eleito o foro da comarca de Mossoró (RN), com renúncia a qualquer outro.
+
+E, por estarem justas e contratadas, assinam o presente instrumento em 2 vias de igual teor e forma, na presença de duas testemunhas, para que produza seus legais jurídicos efeitos.
+
+Mossoró (RN), {{contrato.data_assinatura_extenso}}.
+
+_________________________________________    ___________________________________
+LOCATÁRIO                                                              FIADOR
+
+_________________________________________
+LOCADOR
+
+_________________________________________     ___________________________________
+TESTEMUNHA 1                                                 TESTEMUNHA 2

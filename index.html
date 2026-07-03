@@ -9,80 +9,66 @@
   <body>
     <header class="topbar">
       <div>
-        <p class="eyebrow">MVP local para GitHub Pages</p>
+        <p class="eyebrow">GitHub Pages, sem servidor</p>
         <h1>Gerador de contratos de aluguel</h1>
       </div>
-      <button id="clearAllButton" class="secondary danger" type="button">Apagar dados salvos</button>
     </header>
 
-    <main class="layout">
-      <section class="panel">
+    <main class="page">
+      <section class="panel compact-panel">
         <div class="section-title">
-          <h2>1. Modelo do contrato</h2>
-          <p>Escolha um template pronto ou importe um arquivo de texto com marcadores.</p>
+          <h2>Modelo do contrato</h2>
+          <p>Escolha um modelo pronto ou importe um arquivo com marcadores como <code>{{locador.nome}}</code>.</p>
         </div>
 
-        <label for="templateSelect">Template</label>
-        <select id="templateSelect"></select>
-
-        <div class="template-tools">
-          <label class="file-button" for="templateFile">Importar .txt ou .md</label>
-          <input id="templateFile" type="file" accept=".txt,.md,text/plain,text/markdown" />
-          <button id="downloadExampleButton" class="secondary" type="button">Baixar exemplo</button>
+        <div class="template-row">
+          <div>
+            <label for="templateSelect">Template</label>
+            <select id="templateSelect"></select>
+          </div>
+          <div class="template-tools">
+            <label class="file-button" for="templateFile">Importar template</label>
+            <input id="templateFile" type="file" accept=".txt,.md,.docx,text/plain,text/markdown,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+            <button id="downloadExampleButton" class="secondary" type="button">Baixar exemplo</button>
+          </div>
         </div>
 
         <details>
           <summary>Como preparar meus templates?</summary>
           <p>
-            Use marcadores entre chaves duplas, por exemplo
-            <code>{{locador.nome}}</code>, <code>{{imovel.endereco}}</code> e
-            <code>{{contrato.valor_aluguel}}</code>. O formulário será criado a partir desses campos.
+            Em arquivos <code>.txt</code>, <code>.md</code> ou <code>.docx</code>, coloque os campos entre chaves duplas.
+            Exemplo: <code>{{locatario.nome}}</code>, <code>{{imovel.endereco}}</code>, <code>{{contrato.valor_aluguel}}</code>.
           </p>
           <p>
-            Campos que começam com <code>locador.</code> podem ser salvos para reuso no mesmo navegador.
+            O sistema guarda apenas no navegador deste aparelho o rascunho atual e sugestões recentes dos campos.
           </p>
         </details>
       </section>
 
       <section class="panel">
-        <div class="section-title">
-          <h2>2. Dados do contrato</h2>
-          <p>Preencha os campos detectados no template. O template original não será alterado.</p>
+        <div class="section-title inline-title">
+          <div>
+            <h2>Dados para preencher</h2>
+            <p>Os campos abaixo vêm do template escolhido.</p>
+          </div>
+          <button id="clearFormButton" class="secondary" type="button">Limpar formulário</button>
         </div>
         <form id="contractForm" class="form-grid"></form>
-        <div class="actions">
-          <button id="saveLandlordButton" type="button">Salvar dados do locador</button>
-          <button id="loadLandlordButton" class="secondary" type="button">Reutilizar locador salvo</button>
-        </div>
       </section>
 
-      <section class="panel">
-        <div class="section-title">
-          <h2>3. Ajuste específico deste contrato</h2>
-          <p>Use este espaço para pequenas mudanças no texto final sem alterar o template base.</p>
+      <section class="panel document-panel">
+        <div class="section-title inline-title">
+          <div>
+            <h2>Contrato preenchido</h2>
+            <p>As mudanças feitas abaixo não modificarão o template, modificarão apenas a versão a ser impressa.</p>
+          </div>
+          <div class="preview-actions">
+            <button id="downloadDocxButton" type="button">Salvar .docx</button>
+            <button id="printButton" type="button">Salvar .pdf</button>
+          </div>
         </div>
-        <label for="contractNotes">Observação ou cláusula complementar</label>
-        <textarea id="contractNotes" rows="5" placeholder="Ex.: Para este contrato, permitir um animal de pequeno porte."></textarea>
-      </section>
 
-      <section class="panel preview-panel">
-        <div class="section-title">
-          <h2>4. Prévia e download</h2>
-          <p>Revise com calma antes de baixar. O documento gerado deve ser conferido antes da assinatura.</p>
-        </div>
-        <div class="preview-actions">
-          <button id="copyButton" class="secondary" type="button">Copiar texto</button>
-          <button id="downloadTxtButton" type="button">Baixar .txt</button>
-          <button id="printButton" type="button">Imprimir ou salvar PDF</button>
-        </div>
-        <div class="final-edit">
-          <button id="createEditableCopyButton" class="secondary" type="button">Editar texto final deste contrato</button>
-          <button id="clearEditableCopyButton" class="secondary danger" type="button">Voltar ao texto do template</button>
-          <p class="help-text">Quando este campo estiver preenchido, ele será usado no download e na impressão deste contrato.</p>
-          <label for="finalTextEditor">Texto final editável</label>
-          <textarea id="finalTextEditor" rows="10" placeholder="Clique em editar texto final para criar uma cópia específica deste contrato."></textarea>
-        </div>
-        <article id="preview" class="contract-preview" aria-live="polite"></article>
+        <div id="finalEditor" class="document-output" contenteditable="true" role="textbox" aria-label="Contrato preenchido editável"></div>
       </section>
     </main>
 

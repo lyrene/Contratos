@@ -1,10 +1,10 @@
 # Gerador de Contratos de Aluguel
 
-MVP estático para GitHub Pages. O sistema roda no navegador, gera formulário a partir dos campos presentes no template e não envia dados pessoais para servidor.
+MVP estático para GitHub Pages. O sistema roda no navegador e não usa backend.
 
-## Como usar templates
+## Templates
 
-Crie um arquivo `.txt` ou `.md` com marcadores entre chaves duplas:
+O sistema aceita templates em `.txt`, `.md` e `.docx`, desde que contenham marcadores entre chaves duplas:
 
 ```txt
 LOCADOR: {{locador.nome}}, CPF/CNPJ {{locador.cpf_cnpj}}
@@ -15,20 +15,32 @@ VALOR: {{contrato.valor_aluguel}}
 
 Ao importar o arquivo, o sistema detecta os marcadores e cria os campos do formulário automaticamente.
 
-Campos com prefixo `locador.` podem ser salvos no navegador para reuso em vários contratos.
+## Dados salvos no navegador
+
+O app salva temporariamente, apenas neste navegador:
+
+- o rascunho atual do formulário;
+- até 5 sugestões recentes por campo.
+
+O botão `Limpar formulário` apaga o rascunho atual, mas mantém as sugestões recentes para facilitar novos contratos.
+
+## Saída
+
+- `Salvar .docx` gera um arquivo Word.
+- `Salvar .pdf` abre a impressão do navegador mostrando somente a área do contrato.
+
+Quando o contrato é editado manualmente na área final, essas mudanças valem apenas para o arquivo gerado. O template original não é modificado.
 
 ## Tamanho da fonte
 
 O tamanho base fica em `styles.css`:
 
 ```css
---base-font-size: 14pt;
+--base-font-size: 12pt;
 ```
 
-Altere esse valor para `16pt`, `18pt` ou outro tamanho se precisar.
+Altere esse valor para `13pt`, `14pt` ou outro tamanho se precisar.
 
 ## Publicação no GitHub Pages
 
-O repositório já inclui um workflow em `.github/workflows/pages.yml`. No GitHub, configure Pages para usar GitHub Actions. A cada envio para a branch `main`, o conteúdo da pasta `app/` será publicado.
-
-Como não há backend, não é necessário instalar dependências.
+O repositório inclui um workflow em `.github/workflows/pages.yml`. No GitHub, configure Pages para usar GitHub Actions. A cada envio para a branch `main`, o conteúdo da pasta `app/` será publicado.
