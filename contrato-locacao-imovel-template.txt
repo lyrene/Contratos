@@ -44,7 +44,7 @@ CLÁUSULA 4ª – DO VALOR DO ALUGUEL, DA DATA DE PAGAMENTO E DO REAJUSTE
 
 4.1. O valor do aluguel mensal é de R$ {{contrato.valor_aluguel}} (por extenso {{contrato.valor_aluguel_extenso}}), que o LOCATÁRIO compromete-se a pagar pontualmente até o dia {{contrato.dia_vencimento}} de cada mês, direto ao LOCADOR ou a quem o LOCADOR indicar. O pagamento de cada parcela corresponde ao período de 30 (trinta) dias subsequentes de utilização do imóvel.
 
-4.2. O valor do aluguel será reajustado anualmente com base no IGP-M (Índice Geral de Preços – Mercado), ou, na sua ausência, por índice oficial equivalente que venha a substituí-lo. Alternativamente, poderá ser adotado outro índice proposto pelo LOCATÁRIO, desde que expressamente aceito pelo LOCADOR.
+4.2. O valor do aluguel será reajustado anualmente com base no IPCA (Índice Nacional de Preços ao Consumidor Amplo), ou, na sua ausência, por índice oficial equivalente que venha a substituí-lo. Alternativamente, poderá ser adotado outro índice proposto pelo LOCATÁRIO, desde que expressamente aceito pelo LOCADOR.
 
 CLÁUSULA 5ª – DOS ENCARGOS E SERVIÇOS
 
