@@ -425,8 +425,7 @@ async function importDocxTemplate(file) {
 }
 
 function loadTemplates() {
- // return [...builtInTemplates, ...loadJson(STORAGE_KEYS.templates, [])];
-  return [...loadJson(STORAGE_KEYS.templates, [])];
+ return [...builtInTemplates, ...loadJson(STORAGE_KEYS.templates, [])];
 }
 
 function isBundledTemplate(template) {
