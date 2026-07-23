@@ -321,7 +321,7 @@ function exampleForField(field) {
     "fiador.endereco": "Ex.: Rua Principal, 45, Mossoró/RN",
     "imovel.endereco": "Ex.: Rua Projetada, 50, Mossoró/RN",
     "imovel.identificacao": "Ex.: apartamento 302, bloco B",
-    "imovel.destinacao_uso": "Ex.: residencial",
+    "imovel.destinacao_uso": "Ex.: residencial ou comercial",
     "contrato.valor_aluguel": "Ex.: 1.500,00",
     "contrato.valor_aluguel_extenso": "Ex.: mil e quinhentos reais",
     "contrato.dia_vencimento": "Ex.: 10",
@@ -333,7 +333,7 @@ function exampleForField(field) {
     "contrato.nova_data_inicio_extenso": "Ex.: 01 de agosto de 2026",
     "contrato.nova_data_fim_extenso": "Ex.: 31 de julho de 2027",
     "contrato.data_original_extenso": "Ex.: 01 de agosto de 2025",
-    "contrato.garantia": "Ex.: fiança",
+    "contrato.garantia": "Ex.: fiança ou caução",
     "contrato.local_assinatura": "Ex.: Mossoró",
     "contrato.uf_assinatura": "Ex.: RN",
     "contrato.data_assinatura_extenso": "Ex.: 03 de julho de 2026",
@@ -425,7 +425,8 @@ async function importDocxTemplate(file) {
 }
 
 function loadTemplates() {
-  return [...builtInTemplates, ...loadJson(STORAGE_KEYS.templates, [])];
+ // return [...builtInTemplates, ...loadJson(STORAGE_KEYS.templates, [])];
+  return [...loadJson(STORAGE_KEYS.templates, [])];
 }
 
 function isBundledTemplate(template) {
