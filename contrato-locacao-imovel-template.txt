@@ -122,11 +122,11 @@ E, por estarem justas e contratadas, assinam o presente instrumento em 2 vias de
 
 Mossoró (RN), {{contrato.data_assinatura_extenso}}.
 
-_________________________________________    ___________________________________
-LOCATÁRIO                                                              FIADOR
+_________________________________________    _________________________________________
+LOCATÁRIO                                     FIADOR
 
 _________________________________________
 LOCADOR
 
-_________________________________________     ___________________________________
-TESTEMUNHA 1                                                 TESTEMUNHA 2
+_________________________________________     _________________________________________
+TESTEMUNHA 1                                  TESTEMUNHA 2
